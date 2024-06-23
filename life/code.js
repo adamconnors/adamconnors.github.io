@@ -24,6 +24,17 @@ function resetGrids() {
         }
     }
 }
+var speedSlider = document.getElementById('speedSlider');
+speedSlider.addEventListener('input', speedSliderHandler);
+
+function speedSliderHandler() {
+    var speed = parseInt(speedSlider.value);
+    reproductionTime = 1000 - speed;
+    if (playing) {
+        clearTimeout(timer);
+        timer = setTimeout(play, reproductionTime);
+    }
+}
 
 function copyAndResetGrid() {
     for (var i = 0; i < rows; i++) {
@@ -94,9 +105,9 @@ function createTable() {
         }
     }
 
+startButton = document.getElementById('start');
 function setupControlButtons() {
     // button to start
-    var startButton = document.getElementById('start');
     startButton.onclick = startButtonHandler;
     
     // button to clear
@@ -159,6 +170,18 @@ function startButtonHandler() {
         this.innerHTML = "Pause";
         play();
     }
+}
+
+var stepButton = document.getElementById('step');
+stepButton.addEventListener('click', stepButtonHandler);
+
+function stepButtonHandler() {
+    if (playing) {
+        playing = false;
+        clearTimeout(timer);
+        startButton.innerHTML = "Start";
+    }
+    play();
 }
 
 // run the life game
