@@ -1,4 +1,4 @@
-var rows = 75;
+var rows = 72;
 var cols = 130;
 
 var playing = false;
@@ -81,7 +81,6 @@ function createTable() {
         var rowcol = this.id.split("_");
         var row = rowcol[0];
         var col = rowcol[1];
-
     }
 
     function cellClickHandler() {
