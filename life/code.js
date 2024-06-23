@@ -1,4 +1,4 @@
-var rows = 80;
+var rows = 75;
 var cols = 130;
 
 var playing = false;
@@ -69,11 +69,19 @@ function createTable() {
             cell.setAttribute("id", i + "_" + j);
             cell.setAttribute("class", "dead");
             cell.onclick = cellClickHandler;
+            cell.ondrag = cellDragHandler;
             tr.appendChild(cell);
         }
         table.appendChild(tr);
     }
     gridContainer.appendChild(table);
+    }
+
+    function cellDragHandler() {
+        var rowcol = this.id.split("_");
+        var row = rowcol[0];
+        var col = rowcol[1];
+
     }
 
     function cellClickHandler() {
