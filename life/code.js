@@ -69,7 +69,9 @@ function createTable() {
             cell.setAttribute("id", i + "_" + j);
             cell.setAttribute("class", "dead");
             cell.onclick = cellClickHandler;
-            cell.ondrag = cellDragHandler;
+            cell.onmousedown = mousedownhandler;
+            cell.onmouseup = mouseuphandler;
+            cell.onmousemove = mousemovehandler;
             tr.appendChild(cell);
         }
         table.appendChild(tr);
@@ -77,10 +79,23 @@ function createTable() {
     gridContainer.appendChild(table);
     }
 
-    function cellDragHandler() {
+    var mouseDown = false;
+    function mousedownhandler() {
+        mouseDown = true;
+    }
+
+    function mouseuphandler() {
+        mouseDown = false;
+    }
+
+    function mousemovehandler() {
         var rowcol = this.id.split("_");
         var row = rowcol[0];
         var col = rowcol[1];
+        if (mouseDown) {
+            this.setAttribute("class", "live");
+            grid[row][col] = 1;
+        }
     }
 
     function cellClickHandler() {
@@ -88,15 +103,18 @@ function createTable() {
         var row = rowcol[0];
         var col = rowcol[1];
         
-        var classes = this.getAttribute("class");
+        updateCell(this, row, col);        
+    }
+
+    function updateCell(cell, row, col) {
+        var classes = cell.getAttribute("class");
         if(classes.indexOf("live") > -1) {
-            this.setAttribute("class", "dead");
+            cell.setAttribute("class", "dead");
             grid[row][col] = 0;
         } else {
-            this.setAttribute("class", "live");
+            cell.setAttribute("class", "live");
             grid[row][col] = 1;
         }
-        
     }
 
     function updateView() {
