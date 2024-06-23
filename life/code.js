@@ -179,7 +179,7 @@ function clearButtonHandler() {
     for (var i = 0; i < cells.length; i++) {
         cells[i].setAttribute("class", "dead");
     }
-    resetGrids;
+    resetGrids();
 }
 
 // start/pause/continue the game
