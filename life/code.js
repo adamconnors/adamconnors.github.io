@@ -92,9 +92,35 @@ function createTable() {
         var rowcol = this.id.split("_");
         var row = rowcol[0];
         var col = rowcol[1];
+
+        var isErase = document.getElementById('eraseToggle').checked;
         if (mouseDown) {
-            this.setAttribute("class", "live");
-            grid[row][col] = 1;
+            if (isErase) {
+                setGroup(this, row, col, true);
+           } else {
+            setGroup(this, row, col, false);
+        }
+        }
+    }
+
+    function setGroup(cell, row, col, isErase) {
+        var deleteSize = parseInt(document.getElementById('penSize').value);
+        var iRow = parseInt(row);
+        var iCol = parseInt(col);
+        for (var i = iRow - deleteSize; i <= iRow + deleteSize; i++) {
+            for (var j = iCol - deleteSize; j <= iCol + deleteSize; j++) {
+                if (i >= 0 && i < rows && j >= 0 && j < cols) {
+                    var cell = document.getElementById(i + "_" + j);
+
+                    if (isErase) {
+                        cell.setAttribute("class", "dead");
+                        grid[i][j] = 0;
+                    } else {
+                        cell.setAttribute("class", "live");
+                        grid[i][j] = 1;
+                    }
+                }
+            }
         }
     }
 
@@ -108,12 +134,11 @@ function createTable() {
 
     function updateCell(cell, row, col) {
         var classes = cell.getAttribute("class");
+
         if(classes.indexOf("live") > -1) {
-            cell.setAttribute("class", "dead");
-            grid[row][col] = 0;
+            setGroup(cell, row, col, true);
         } else {
-            cell.setAttribute("class", "live");
-            grid[row][col] = 1;
+            setGroup(cell, row, col, false);
         }
     }
 
